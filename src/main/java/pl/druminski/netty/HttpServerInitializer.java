@@ -19,7 +19,7 @@ public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
     private final ChannelHandler jerseyHandler;
 
     public HttpServerInitializer() {
-        jerseyHandler = createJerseyHandlerContainer();
+        jerseyHandler = createJerseyHandler();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
 
     }
 
-    private ChannelHandler createJerseyHandlerContainer() {
+    private ChannelHandler createJerseyHandler() {
 
         ResourceConfig resourceConfig = new ResourceConfig().registerClasses(HelloNettyEndpoint.class);
 

@@ -1,5 +1,6 @@
 package pl.druminski.netty.jersey;
 
+import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
@@ -56,6 +57,11 @@ public class JerseyHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
                 getSecurityContext(),
                 new MapPropertiesDelegate());
 
+        for (String key: request.headers().names()) {
+            containerRequest.headers(key, request.headers().getAll(key));
+        }
+
+        containerRequest.setEntityStream(new ByteBufInputStream(request.content()));
         containerRequest.setWriter(new ResponseWriter(context.channel()));
 
         applicationHandler.handle(containerRequest);
